@@ -20,7 +20,7 @@ public class WrapperUtils {
     for (SituationMention sm : sms.getMentionList()) {
       justificationSet.add(Justification.newBuilder().setJustificationType(Type.DIRECT_MENTION).
                                                       setMention(sm.getUuid()).
-                                                      addAllTokens(sm.getTokensList())
+                                                      addTokens(sm.getTokens())
                                                       .build());
     }
     return justificationSet;

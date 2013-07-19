@@ -69,12 +69,14 @@ public class WrapperUtils {
     for (Sentence sentence : c.getSectionSegmentation(0).getSection(0).getSentenceSegmentation(0).getSentenceList() ){
       Tokenization tokenizn = sentence.getTokenization(0);
       if (tokenizn.getUuid().equals(sm.getTokens().getTokenizationId() )){
-        String action = tokenizn.getToken(sm.getTokens().getAnchorTokenIndex()).getText();
+        int actionIndex = sm.getTokens().getAnchorTokenIndex();
+        
+        String action = tokenizn.getToken(actionIndex).getText();
+        String actionPOS = tokenizn.getPosTags(0).getTaggedToken(actionIndex).getTag();
         String context = c.getText().substring(sentence.getTextSpan().getStart(), sentence.getTextSpan().getEnd());
         
         DependencyParse fanseparse = tokenizn.getDependencyParse(3);
         HashMap<String, ArrayList<Integer> > candidateRoles = new HashMap<String, ArrayList<Integer> >();
-        int actionIndex = sm.getTokens().getAnchorTokenIndex();
         for (Dependency d : fanseparse.getDependencyList()) {
           if (d.getGov() == actionIndex && patientRelations.contains(d.getEdgeType())) {
             ArrayList<Integer> clone = new ArrayList<Integer>();
@@ -87,11 +89,13 @@ public class WrapperUtils {
         }
         
         String agent = "";
+        String agentPOS = "";
         String agentRelation = "";
         for (String relation : agentRelations) {
           if (candidateRoles.containsKey(relation)) {
             ArrayList<Integer> clone = candidateRoles.get(relation);
             agent = tokenizn.getToken(clone.get(0)).getText();
+            agentPOS = tokenizn.getPosTags(0).getTaggedToken(clone.get(0)).getTag();
             agentRelation = relation;
             clone.remove(0);
             if (clone.isEmpty()) {
@@ -104,11 +108,13 @@ public class WrapperUtils {
         }
         
         String patient = "";
+        String patientPOS = "";
         String patientRelation = "";
         for (String relation : patientRelations) {
           if (candidateRoles.containsKey(relation)) {
             ArrayList<Integer> clone = candidateRoles.get(relation);
             patient = tokenizn.getToken(clone.get(0)).getText();
+            patientPOS = tokenizn.getPosTags(0).getTaggedToken(clone.get(0)).getTag();
             patientRelation = relation;
             clone.remove(0);
             candidateRoles.put(relation, clone);
@@ -116,7 +122,7 @@ public class WrapperUtils {
           }
         }
         
-        return new PredicateArgument(action,agent,patient,agentRelation,patientRelation,context);
+        return new PredicateArgument(action,agent,patient,actionPOS,agentPOS,patientPOS,agentRelation,patientRelation,context);
         
       }
     }

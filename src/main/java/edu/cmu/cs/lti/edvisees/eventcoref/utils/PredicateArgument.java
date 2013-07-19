@@ -5,16 +5,22 @@ public class PredicateArgument {
   private String action;
   private String agent;
   private String patient;
+  private String actionPOS;
+  private String agentPOS;
+  private String patientPOS;
   private String agentRelation;
   private String patientRelation;
   private String context;
   
-  public PredicateArgument(String action, String agent, String patient, String agentRelation,
-          String patientRelation, String context) {
+  public PredicateArgument(String action, String agent, String patient, String actionPOS, String agentPOS, 
+          String patientPOS, String agentRelation, String patientRelation, String context) {
     super();
     this.action = action;
     this.agent = agent;
     this.patient = patient;
+    this.actionPOS = actionPOS;
+    this.agentPOS = agentPOS;
+    this.patientPOS = patientPOS;
     this.agentRelation = agentRelation;
     this.patientRelation = patientRelation;
     this.context = context;
@@ -102,6 +108,48 @@ public class PredicateArgument {
    */
   public void setContext(String context) {
     this.context = context;
+  }
+
+  /**
+   * @return the actionPOS
+   */
+  public String getActionPOS() {
+    return actionPOS;
+  }
+
+  /**
+   * @param actionPOS the actionPOS to set
+   */
+  public void setActionPOS(String actionPOS) {
+    this.actionPOS = actionPOS;
+  }
+
+  /**
+   * @return the agentPOS
+   */
+  public String getAgentPOS() {
+    return agentPOS;
+  }
+
+  /**
+   * @param agentPOS the agentPOS to set
+   */
+  public void setAgentPOS(String agentPOS) {
+    this.agentPOS = agentPOS;
+  }
+
+  /**
+   * @return the patientPOS
+   */
+  public String getPatientPOS() {
+    return patientPOS;
+  }
+
+  /**
+   * @param patientPOS the patientPOS to set
+   */
+  public void setPatientPOS(String patientPOS) {
+    this.patientPOS = patientPOS;
   }
   
 }

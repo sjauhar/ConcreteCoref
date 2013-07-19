@@ -98,7 +98,7 @@ public class FanseParse {
       List<Dependency> parseDeps = new ArrayList<Dependency>();
       //loop through the dependency arcs
       for (Arc a : parseArcs) {
-       
+        
         //convert from tratz Arc object to concrete Dependency object and add to list
         if (a.getDependency().equals("ROOT")) {
           continue;
@@ -119,7 +119,7 @@ public class FanseParse {
         */
       }
       //add to the list of modified sentence objects
-      modifiedSentList.add(edu.jhu.hlt.concrete.Concrete.Sentence.newBuilder(sent).
+      modifiedSentList.add(edu.jhu.hlt.concrete.Concrete.Sentence.newBuilder(sent).clearTokenization().
                            addTokenization(Tokenization.newBuilder(sent.getTokenization(0)).
                            addDependencyParse(DependencyParse.newBuilder().setUuid(IdUtil.generateUUID()).
                            addAllDependency(parseDeps).build()).build()).build());

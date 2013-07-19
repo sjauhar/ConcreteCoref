@@ -1,13 +1,12 @@
 package edu.cmu.cs.lti.edvisees.eventcoref.features;
 
-import edu.jhu.hlt.concrete.Concrete.Situation.Justification;
+import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
 
 
 public class SennaSimilarity implements Feature{
 
-	
-	
-	public double computeVal(Justification i, Justification j) {
+	public double computeVal(PredicateArgument i, PredicateArgument j) {
 		return 0;
 	}
+	
 }

@@ -11,6 +11,7 @@ import edu.cmu.cs.lti.edvisees.eventcoref.features.RandomFeature;
 import edu.cmu.cs.lti.edvisees.eventcoref.features.SDSMfeatures;
 import edu.cmu.cs.lti.edvisees.eventcoref.features.SennaSimilarity;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
+import edu.cmu.cs.lti.edvisees.eventcoref.utils.SqlHandle;
 import edu.ucla.sspace.matrix.*;
 
 public class AdjacencyMatrixBuilder {
@@ -27,7 +28,8 @@ public class AdjacencyMatrixBuilder {
   }
 
 
-  public Matrix build(ArrayList<PredicateArgument> predicateArgumentSet) throws Exception {
+  public Matrix build(ArrayList<PredicateArgument> predicateArgumentSet, SqlHandle tsq1) throws Exception {
+	
     SymmetricMatrix adjacencyMatrix = new SymmetricMatrix(predicateArgumentSet.size(), predicateArgumentSet.size());
     SennaSimilarity s = new SennaSimilarity();
     String modelLocation = "src/main/resources/bigModel.model";
@@ -49,9 +51,11 @@ public class AdjacencyMatrixBuilder {
     	  PredicateArgument pa2 = predicateArgumentSet.get(j);
           System.out.println("Created predicate arguments: Actions: "+pa1.getAction()+" "+pa2.getAction()+" Agents:" +pa1.getAgent()+pa2.getAgent()+"Patients:"+pa1.getPatient()+" "+pa2.getPatient());
           
-    	  
+          System.out.println("Creating Senna feature..");
     	  featureVec.add(s.computeVal(pa1, pa2));
-    	  featureVec.addAll(SDSMfeatures.genfeat(pa1, pa2)); 
+    	  System.out.println("Creating DB features..");
+    	  featureVec.addAll(SDSMfeatures.genfeat(pa1, pa2,tsq1));
+    	  System.out.println("All features made.");
     	  
     	//Compute Feature Vector Justification pair
         double[] featureVector = new double[featureVec.size()+1];
@@ -61,6 +65,7 @@ public class AdjacencyMatrixBuilder {
         featureVector[featureVec.size()] = 0;
         
         //Feed feature vector to a Classifier, and generate an adjacency matrix entry
+        System.out.println("Adding classification..");
         adjacencyMatrix.set(i, j, classify(source,cls, testInst,featureVector,modelLocation,emptyArffLocation));
       }
     }

@@ -21,14 +21,26 @@ public class SqlHandle {
 	private Connection conn;
 	
 		
-	public SqlHandle() throws Exception {
+	public SqlHandle(){
 		super();
 		this.sqlDb = "src/main/resources/simplewikidata/bklsimplewiki_lemma_sql.db";
 		String sDriverName = "org.sqlite.JDBC";
-		Class.forName(sDriverName);
+		try {
+			Class.forName(sDriverName);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("xxxxx");
+		}
 		String sJdbc = "jdbc:sqlite";
 		String sDbUrl = sJdbc + ":" + sqlDb;
-		Connection conn = DriverManager.getConnection(sDbUrl);
+		try {
+			Connection conn = DriverManager.getConnection(sDbUrl);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("xxxxxx");
+		}
 		//return conn;
 	}
 	

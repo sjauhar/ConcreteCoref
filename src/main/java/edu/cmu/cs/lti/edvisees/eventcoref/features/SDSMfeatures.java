@@ -11,10 +11,10 @@ import edu.cmu.cs.lti.edvisees.eventcoref.utils.*;
 
 
 public class SDSMfeatures {
-	public static ArrayList<Double> genfeat(PredicateArgument set1, PredicateArgument set2) throws Exception{
+	public static ArrayList<Double> genfeat(PredicateArgument set1, PredicateArgument set2,SqlHandle tsq1) throws Exception{
 		Boolean nofill=true;
 		ArrayList<Double> ret= new ArrayList<Double>();
-		SqlHandle tsq1= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_lemma_sql0.db");
+		
 		//SqlHandle tsq2= new SqlHandle("src/main/resources/simplewikidata/repaired_bklsimplewiki_word_lemma_sst_sql0.db");
 		//SqlHandle tsq3= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_sst_sql0.db");
 		//lemma arguments

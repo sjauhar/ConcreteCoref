@@ -10,8 +10,8 @@ import edu.cmu.cs.lti.edvisees.eventcoref.utils.ConcreteReader;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.FanseParse;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.Senna;
+import edu.cmu.cs.lti.edvisees.eventcoref.utils.SqlHandle;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.WrapperUtils;
-
 import edu.jhu.hlt.concrete.Concrete.Communication;
 import edu.jhu.hlt.concrete.Concrete.DependencyParse.Dependency;
 import edu.jhu.hlt.concrete.Concrete.Situation.Justification;
@@ -21,7 +21,6 @@ import edu.jhu.hlt.concrete.Concrete.Situation.Type;
 import edu.jhu.hlt.concrete.Concrete.*;
 import edu.jhu.hlt.concrete.io.ProtocolBufferReader;
 import edu.jhu.hlt.concrete.util.IdUtil;
-
 import edu.ucla.sspace.matrix.*;
 
 public class Test {
@@ -29,7 +28,7 @@ public class Test {
   public static void main(String[] args) throws Exception {
     
 	//System.out.println(Senna.getVector("cat"));
-	
+	SqlHandle tsq1= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_lemma_sql0.db");
     File f = new File(args[0]);
     System.out.println("Reading concrete object from file...");
     
@@ -96,7 +95,7 @@ public class Test {
       System.out.println("Calling ambbuilder");
       AdjacencyMatrixBuilder amb = new AdjacencyMatrixBuilder();
       System.out.println("Calling ambbuilder.build");
-      Matrix adjacencyMatrix = amb.build(predicateArgumentSet);
+      Matrix adjacencyMatrix = amb.build(predicateArgumentSet,tsq1);
       
       /*
       //Chain builder goes here

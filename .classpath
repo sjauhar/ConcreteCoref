@@ -29,6 +29,12 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="src/main/resources/fanseparser.jar"/>
-	<classpathentry kind="lib" path="/usr0/home/kartikgo/git/ConcreteCoref/src/main/resources/sqlite-jdbc-3.7.2.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/je-5.0.58.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/sqlite-jdbc-3.7.2.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/object-explorer.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/ObjectSizeFetcher.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/RiTaWN.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/supportWN.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/core1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

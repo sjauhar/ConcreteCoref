@@ -13,8 +13,8 @@ public class ConcreteReader {
   public static ArrayList<Communication> getCommunicationsFrom (File f) throws IOException {
     //System.out.println("[ConcreteWrapper getCommunicationsFrom] reading from " + f.getPath());
     FileInputStream is = new FileInputStream(f);
-    @SuppressWarnings("unused")
-    KnowledgeGraph kg = KnowledgeGraph.parseDelimitedFrom(is);
+    //@SuppressWarnings("unused")
+    //KnowledgeGraph kg = KnowledgeGraph.parseDelimitedFrom(is);
     ArrayList<Communication> docs = new ArrayList<Communication>();
     while (is.available() > 0) {
       Communication c = Communication.parseDelimitedFrom(is);

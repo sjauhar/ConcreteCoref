@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.cmu.cs.lti.edvisees.eventcoref.features.Feature;
 import edu.cmu.cs.lti.edvisees.eventcoref.features.RandomFeature;
-import edu.jhu.hlt.concrete.Concrete.Situation.Justification;
+import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
 
 import edu.ucla.sspace.matrix.*;
 
@@ -22,17 +22,17 @@ public class AdjacencyMatrixBuilder {
   }
 
 
-  public Matrix build(ArrayList<Justification> justificationSet) {
-    SymmetricMatrix adjacencyMatrix = new SymmetricMatrix(justificationSet.size(), justificationSet.size());
+  public Matrix build(ArrayList<PredicateArgument> predicateArgumentSet) {
+    SymmetricMatrix adjacencyMatrix = new SymmetricMatrix(predicateArgumentSet.size(), predicateArgumentSet.size());
     
     /*Loop over pairs of Justifications (event mentions)*/
-    for (int i=0; i<justificationSet.size();i++){
+    for (int i=0; i<predicateArgumentSet.size();i++){
       for (int j=0; j<=i;j++){
         
     	//Compute Feature Vector Justification pair
         List<Double> featureVector = new ArrayList<Double>();
         for (Feature f : features) {
-          featureVector.add(f.computeVal(justificationSet.get(i), justificationSet.get(j)));
+          featureVector.add(f.computeVal(predicateArgumentSet.get(i), predicateArgumentSet.get(j)));
         }
         
         //Feed feature vector to a Classifier, and generate an adjacency matrix entry

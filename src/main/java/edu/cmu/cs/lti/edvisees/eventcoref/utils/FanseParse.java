@@ -12,7 +12,7 @@ import edu.jhu.hlt.concrete.Concrete.SectionSegmentation;
 import edu.jhu.hlt.concrete.Concrete.SentenceSegmentation;
 import edu.jhu.hlt.concrete.Concrete.DependencyParse.Dependency;
 import edu.jhu.hlt.concrete.Concrete.Token;
-import edu.jhu.hlt.concrete.Concrete.TokenRef;
+import edu.jhu.hlt.concrete.Concrete.Tokenization;
 import edu.jhu.hlt.concrete.util.IdUtil;
 
 import tratz.parse.FullSystemWrapper.FullSystemResult;
@@ -98,11 +98,17 @@ public class FanseParse {
       List<Dependency> parseDeps = new ArrayList<Dependency>();
       //loop through the dependency arcs
       for (Arc a : parseArcs) {
-       
+        
         //convert from tratz Arc object to concrete Dependency object and add to list
         if (a.getDependency().equals("ROOT")) {
           continue;
         }
+        
+        parseDeps.add(Dependency.newBuilder().setDep(a.getChild().getIndex()-1)
+                                             .setGov(a.getHead().getIndex()-1)
+                                             .setEdgeType(a.getDependency()).build());
+        
+        /*
         parseDeps.add(Dependency.newBuilder().setDep(TokenRef.newBuilder().
                                                      setTokenization(sent.getTokenization(0).getUuid()).
                                                      setTokenId(a.getChild().getIndex()-1).build()).
@@ -110,14 +116,21 @@ public class FanseParse {
                                                      setTokenization(sent.getTokenization(0).getUuid()).
                                                      setTokenId(a.getHead().getIndex()-1).build()).
                                               setEdgeType(a.getDependency()).build());
+        */
       }
       //add to the list of modified sentence objects
+      modifiedSentList.add(edu.jhu.hlt.concrete.Concrete.Sentence.newBuilder(sent).clearTokenization().
+                           addTokenization(Tokenization.newBuilder(sent.getTokenization(0)).
+                           addDependencyParse(DependencyParse.newBuilder().setUuid(IdUtil.generateUUID()).
+                           addAllDependency(parseDeps).build()).build()).build());
+      
+      /*
       modifiedSentList.add(edu.jhu.hlt.concrete.Concrete.Sentence.newBuilder(sent).
                                                                   addDependencyParse(DependencyParse.newBuilder().
                                                                           setUuid(IdUtil.generateUUID()).
                                                                           addAllDependency(parseDeps).build()).
                                                                   build());
-      
+      */
       //start = end;
     }
     

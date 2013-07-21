@@ -1,6 +1,15 @@
 package edu.cmu.cs.lti.edvisees.eventcoref.utils;
+import java.sql.ResultSet;
 import java.util.*;
 
+import edu.cmu.cs.lti.edvisees.eventcoref.utils.GoldArgm;
+
+
+
+
+
+
+//import edu.cmu.cs.lti.edvisees.eventcoref.utils.ObjectSizeFetcher;
 import com.google.common.collect.*;
 import com.google.common.collect.Table.Cell;
 
@@ -14,7 +23,9 @@ public class CompositionUtils {
 			Multiset<String> mulset2= tab2.get(row, column);
 			if(!(mulset2==null)){
 					Multiset<String> mulset= Multisets.intersection(mulset1, mulset2);
+					if (!mulset.isEmpty()){
 					rettable.put(row, column, mulset);
+					}
 				}
 		}
 		return rettable;
@@ -57,14 +68,164 @@ public class CompositionUtils {
 			Multiset<String> mulset2= tab2;
 			if(!(mulset2==null)){
 					Multiset<String> mulset= Multisets.intersection(mulset1, mulset2);
+					if (!mulset.isEmpty()){
 					rettable.put(row, column, mulset);
+					}
 				}
 		}
 		return rettable;
 			
 	}
 	
+	public static Table<String,String,Multiset<String>> Singledict(String w1, SqlHandle tsq) throws Exception{
+		String sent="";
+		Table<String,String,Multiset<String>> w1dict = HashBasedTable.create();
+		
+		int count=0;
+		
+		ResultSet rs= tsq.sqlGet("select rel,w2,SentenceIDs,corpus from Triples where w1= '"+w1+"'");
+		while(rs.next()){
+			count =count +1;
+			sent = rs.getString("SentenceIDs");
+			String rel1=rs.getString("rel");
+			String w21= rs.getString("w2");
+			
+			List<String> ids1= Arrays.asList(sent.replaceAll("^_+","").split("_"));
+			Multiset<String> intermed = HashMultiset.create();
+			intermed.addAll(ids1);
+			
+			if(w1dict.get(rel1, w21)==null){
+			w1dict.put(rel1, w21, intermed);
+			
+			}
+			else{
+				w1dict.put(rel1, w21,Multisets.sum(intermed, w1dict.get(rel1,w21)));
+			}
+		}
+		
+		sent="";
+		rs= tsq.sqlGet("select rel,w1,SentenceIDs,corpus from Triples where w2= '"+w1+"'");
+		while(rs.next()){
+			
+			sent = rs.getString("SentenceIDs");
+			String rel1=rs.getString("rel");
+			String w21= rs.getString("w1");
+			//System.out.println("In w1 1: "+w21+": "+rel1);
+			List<String> ids1= Arrays.asList(sent.replaceAll("^_+","").split("_"));
+			Multiset<String> intermed = HashMultiset.create();
+			intermed.addAll(ids1);
+			if(w1dict.get(rel1, w21)==null){
+			w1dict.put(rel1, w21, intermed);
+			}
+			else{
+				w1dict.put(rel1, w21,Multisets.sum(intermed, w1dict.get(rel1,w21)));
+			}
+		}
+		
+		return w1dict;
+	}
 	
+	public static Table<String,String,Multiset<String>> Singledictsst(String w1, SqlHandle tsq) throws Exception{
+		String sent="";
+		Table<String,String,Multiset<String>> w1dict = HashBasedTable.create();
+		
+		int count=0;
+		String w1str= "B-"+w1+"','I-"+w1+"','O-"+w1;
+		ResultSet rs= tsq.sqlGet("select rel,w2,SentenceIDs,corpus from Triples where w1 IN ('"+w1str+"')");
+		while(rs.next()){
+			count =count +1;
+			sent = rs.getString("SentenceIDs");
+			String rel1=rs.getString("rel");
+			String w21= rs.getString("w2");
+			
+			List<String> ids1= Arrays.asList(sent.replaceAll("^_+","").split("_"));
+			Multiset<String> intermed = HashMultiset.create();
+			intermed.addAll(ids1);
+			
+			if(w1dict.get(rel1, w21)==null){
+			w1dict.put(rel1, w21, intermed);
+			
+			}
+			else{
+				w1dict.put(rel1, w21,Multisets.sum(intermed, w1dict.get(rel1,w21)));
+			}
+		}
+		
+		sent="";
+		rs= tsq.sqlGet("select rel,w1,SentenceIDs,corpus from Triples where w2 IN ('"+w1str+"')");
+		while(rs.next()){
+			
+			sent = rs.getString("SentenceIDs");
+			String rel1=rs.getString("rel");
+			String w21= rs.getString("w1");
+			//System.out.println("In w1 1: "+w21+": "+rel1);
+			List<String> ids1= Arrays.asList(sent.replaceAll("^_+","").split("_"));
+			Multiset<String> intermed = HashMultiset.create();
+			intermed.addAll(ids1);
+			if(w1dict.get(rel1, w21)==null){
+			w1dict.put(rel1, w21, intermed);
+			}
+			else{
+				w1dict.put(rel1, w21,Multisets.sum(intermed, w1dict.get(rel1,w21)));
+			}
+		}
+		
+		return w1dict;
+	}
+	
+	
+	
+	
+	public static HashMap<String,Double> fill_lem(String event, String rel, SqlHandle tsq) throws Exception{
+		HashMap<String,Double> retmap= new HashMap<String,Double>();
+		HashMultimap<Double,String> invretmap= HashMultimap.create();
+		String relt= "";
+		if (rel.equals("A")){
+			relt= "'nsubj','dobj','pobj','partmod'";
+		}
+		else if(rel.equals("P")){
+			relt="'dobj','nsubj','ccomp','xcomp','partmod','pobj'";
+		}
+		ResultSet rs= tsq.sqlGet("select w1,count from Triples where w2= '"+event+"' and rel IN ("+relt+") order by count DESC");
+		int count=0;
+		while(rs.next()&&count<1){
+			//System.out.println(rs.getString("count")+": "+rs.getString("w1"));
+			invretmap.put((double)Integer.parseInt(rs.getString("count")),rs.getString("w1"));
+			
+			count +=1;
+		}
+		
+		rs= tsq.sqlGet("select w2,count from Triples where w1= '"+event+"' and rel IN ("+relt+") order by count DESC");
+		count=0;
+		while(rs.next()&&count<1){
+			//System.out.println(rs.getString("count")+": "+rs.getString("w2"));
+			invretmap.put((double)Integer.parseInt(rs.getString("count")),rs.getString("w2"));
+			count +=1;
+		}
+		List l=Lists.newArrayList(invretmap.keySet());
+		Collections.sort(l,Collections.reverseOrder());
+		count=0;
+		int i=0;
+		while(count<1 && i<l.size()){
+			Double freq= (Double)l.get(i);
+			for(String s:invretmap.get(freq)){
+				retmap.put(s,freq);
+				count +=1;
+			}
+			i+=1;
+		}
+		//HashMap<Double,Double> normmap= new HashMap<Double,Double>();
+		Collection<Double> l1 = retmap.values();
+		Double sum=0.0;
+		for(Double k:l1){
+			sum += k;
+		}
+		for(String k:retmap.keySet()){
+			retmap.put(k, retmap.get(k)/sum);
+			
+		}
+		return retmap;
+	}
 	public static void main(String [] args){
 		/*HashMap<String, HashMap<String, HashMap<String, Integer>>> map1 = new HashMap <String,HashMap <String,HashMap<String,Integer>>>();
 		HashMap<String, HashMap<String, HashMap<String, Integer>>> map2 = new HashMap <String,HashMap <String,HashMap<String,Integer>>>();
@@ -102,8 +263,8 @@ public class CompositionUtils {
 		Table<String,String,Multiset<String>> tbl = HashBasedTable.create();
 		Table<String,String,Multiset<String>> tbl2 = HashBasedTable.create();
 		Multiset<String> mu= HashMultiset.create();
-		mu.add("434");
-		mu.add("412",3);
+		mu.add("444");
+		mu.add("432",3);
 		mu.add("54");
 		
 		tbl.put("nsub", "eat", mu);
@@ -115,8 +276,12 @@ public class CompositionUtils {
 		m.add("234");
 		m.add("434");
 		tbl2.put("nsub", "play", m);
-		System.out.println(tintersect(tbl,tbl2));
+		System.out.println(tintersect(tbl,m).get("nsub", "eat").isEmpty());
 		System.out.println(tjoin(tbl,tbl2));
+		//System.out.println(tbl.get("sadsa", "sada")==null);
+		System.out.println(tbl2);
+		//tbl2.put("nsub", "play", mu);
+		//System.out.println(tbl2);
 		//System.out.println(Multisets.intersection(mu, m).toString());
 		//System.out.println(mu.toString()+m.toString());
 		//System.out.println(tbl.columnKeySet().toString());

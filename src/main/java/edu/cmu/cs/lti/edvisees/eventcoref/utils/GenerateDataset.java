@@ -8,6 +8,7 @@ import edu.cmu.cs.lti.edvisees.eventcoref.features.*;
 public class GenerateDataset {
 	
 	public static void main(String args[]) throws Exception{
+		System.out.println(java.lang.Runtime.getRuntime().maxMemory());
 		ArrPairPredicateArgument test = new ArrPairPredicateArgument("src/main/resources/pairwiseJudgementsConsistent.txt");
 		ArrayList<PairPredicateArgument> arrPredPairs = test.getArrPredPairs();
 		SennaSimilarity s = new SennaSimilarity();

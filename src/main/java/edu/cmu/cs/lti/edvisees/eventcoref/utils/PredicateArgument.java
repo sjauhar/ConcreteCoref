@@ -15,9 +15,12 @@ public class PredicateArgument {
   public PredicateArgument(String action, String agent, String patient, String actionPOS, String agentPOS, 
           String patientPOS, String agentRelation, String patientRelation, String context) {
     super();
-    this.action = action;
-    this.agent = agent;
-    this.patient = patient;
+    if (action.isEmpty()) this.action = "-";
+    else this.action = action;
+    if (agent.isEmpty()) this.agent = "-";
+    else this.agent = agent;
+    if (patient.isEmpty()) this.patient = "-";
+    else this.patient = patient;
     this.actionPOS = actionPOS;
     this.agentPOS = agentPOS;
     this.patientPOS = patientPOS;
@@ -37,7 +40,8 @@ public class PredicateArgument {
    * @param action the action to set
    */
   public void setAction(String action) {
-    this.action = action;
+	  if (action.isEmpty())    this.action = "-";
+	  else this.action = action;
   }
 
   /**
@@ -51,7 +55,15 @@ public class PredicateArgument {
    * @param agent the agent to set
    */
   public void setAgent(String agent) {
-    this.agent = agent;
+	  System.out.println("String is:"+agent+":");
+	  if (agent.isEmpty()){
+		  System.out.println("here Ag");
+		  this.agent = "-";
+	  }
+	  else{
+		  System.out.println("not here Ag");
+		  this.agent = agent;
+	  }
   }
 
   /**
@@ -65,7 +77,8 @@ public class PredicateArgument {
    * @param patient the patient to set
    */
   public void setPatient(String patient) {
-    this.patient = patient;
+	  if (patient.isEmpty())    this.patient = "-";
+	  else this.patient = patient;
   }
 
   /**

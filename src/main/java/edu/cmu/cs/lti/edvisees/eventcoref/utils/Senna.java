@@ -36,7 +36,8 @@ public class Senna {
 			embedBr.close();
 			
 		} catch (Exception e) {
-			System.out.println("COULD NOT OPEN SENNA FILES!");
+			System.out.println("Bakwaas");
+			System.out.println(e+"COULD NOT OPEN SENNA FILES!");
 		}
 	}
 	

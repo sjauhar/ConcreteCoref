@@ -28,7 +28,7 @@ public class Test {
 
   public static void main(String[] args) throws Exception {
     
-	System.out.println(Senna.getVector("cat"));
+	//System.out.println(Senna.getVector("cat"));
 	
     File f = new File(args[0]);
     System.out.println("Reading concrete object from file...");
@@ -93,7 +93,9 @@ public class Test {
       
       //Coref engine goes here
       //Produces an adjacency matrix (by pair-wise predictions over whole justification set)
+      System.out.println("Calling ambbuilder");
       AdjacencyMatrixBuilder amb = new AdjacencyMatrixBuilder();
+      System.out.println("Calling ambbuilder.build");
       Matrix adjacencyMatrix = amb.build(predicateArgumentSet);
       
       /*

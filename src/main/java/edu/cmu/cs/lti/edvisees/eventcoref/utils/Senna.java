@@ -11,8 +11,8 @@ public class Senna {
 	static{
 		try {
 			
-			String wordsFile = "/Users/shashans/Documents/Work/Senna/senna/hash/words.lst";
-			String embedFile = "/Users/shashans/Documents/Work/Senna/senna/embeddings/embeddings.txt";
+			String wordsFile = "src/main/resources/words.lst";
+			String embedFile = "src/main/resources/embeddings.txt";
 			//String embedFile = "main/resources/embeddings.txt";
 			BufferedReader wordsBr = new BufferedReader(new FileReader(wordsFile));
 			BufferedReader embedBr = new BufferedReader(new FileReader(embedFile));
@@ -36,7 +36,8 @@ public class Senna {
 			embedBr.close();
 			
 		} catch (Exception e) {
-			System.out.println("COULD NOT OPEN SENNA FILES!");
+			System.out.println("Bakwaas");
+			System.out.println(e+"COULD NOT OPEN SENNA FILES!");
 		}
 	}
 	

@@ -1,0 +1,21 @@
+@relation Dataset
+
+@attribute F0 numeric
+@attribute F1 numeric
+@attribute F2 numeric
+@attribute F3 numeric
+@attribute F4 numeric
+@attribute F5 numeric
+@attribute F6 numeric
+@attribute F7 numeric
+@attribute F8 numeric
+@attribute F9 numeric
+@attribute F10 numeric
+@attribute F11 numeric
+@attribute F12 numeric
+@attribute F13 numeric
+@attribute F14 numeric
+@attribute F15 numeric
+@attribute Label {POS,NEG}
+
+@data

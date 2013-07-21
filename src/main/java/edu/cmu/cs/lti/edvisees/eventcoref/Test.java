@@ -93,7 +93,9 @@ public class Test {
       
       //Coref engine goes here
       //Produces an adjacency matrix (by pair-wise predictions over whole justification set)
+      System.out.println("Calling ambbuilder");
       AdjacencyMatrixBuilder amb = new AdjacencyMatrixBuilder();
+      System.out.println("Calling ambbuilder.build");
       Matrix adjacencyMatrix = amb.build(predicateArgumentSet);
       
       /*

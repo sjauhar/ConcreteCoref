@@ -108,17 +108,17 @@ public class SDSMfeatures {
 		if(nofill){
 			//System.out.println("nofill is true");
 		if (agent1.equals("-_root")||agent2.equals("-_root")){
-			SparseDoubleMatrix2D m1= new SparseDoubleMatrix2D(1,1);
-			SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
-			Agentfeats=calcdist(m1,m2,"default");
-			ev_ag_lem_feats= calcdist(m1,m2,"default");
+			//SparseDoubleMatrix2D m1= new SparseDoubleMatrix2D(1,1);
+			//SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
+			Agentfeats= Lists.newArrayList(0.23122829779151968, 1.2512233042402923, 0.5353173744699655);//calcdist(m1,m2,"default");
+			ev_ag_lem_feats= Lists.newArrayList(0.9389374553003531, 0.9765789241166078, 0.9036256846289756);//calcdist(m1,m2,"default");
 		}
 		
 		if (patient1.equals("-_root")||patient2.equals("-_root")){
-			SparseDoubleMatrix2D m1= new SparseDoubleMatrix2D(1,1);
-			SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
-			Patientfeats=calcdist(m1,m2,"default");
-			ev_pa_lem_feats= calcdist(m1,m2,"default");
+			//SparseDoubleMatrix2D m1= new SparseDoubleMatrix2D(1,1);
+			//SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
+			Patientfeats=Lists.newArrayList(0.21432281972552883, 1.33989803033053, 0.5507771073850622);//calcdist(m1,m2,"default");
+			ev_pa_lem_feats= Lists.newArrayList(0.74923933945639, 0.9389621960271494, 0.7649554668126036); //calcdist(m1,m2,"default");
 		}
 		}
 	//@@@@@TILL HERE FOR DEFAULT -1.0

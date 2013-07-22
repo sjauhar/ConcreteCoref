@@ -15,6 +15,11 @@ public class PredicateArgument {
   public PredicateArgument(String action, String agent, String patient, String actionPOS, String agentPOS, 
           String patientPOS, String agentRelation, String patientRelation, String context) {
     super();
+    
+    action = action.toLowerCase();
+    agent = agent.toLowerCase();
+    patient = patient.toLowerCase();
+    
     if (action.isEmpty()) this.action = "-";
     else this.action = action;
     if (agent.isEmpty()) this.agent = "-";

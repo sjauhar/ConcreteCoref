@@ -21,7 +21,6 @@ public class GenerateDataset {
 			PredicateArgument pa2 = pairpa.getPa2();
 			String aux = pairpa.getEntireLine(); 
 			ArrayList<Double> featureVec = new ArrayList<Double>();
-			
 			featureVec.add(s.computeVal(pa1, pa2));
 			featureVec.addAll(SDSMfeatures.genfeat(pa1, pa2,tsq1));
 			//System.out.println("pair done.");

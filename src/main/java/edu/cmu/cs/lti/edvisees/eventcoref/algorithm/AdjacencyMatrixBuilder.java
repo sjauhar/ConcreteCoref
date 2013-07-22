@@ -1,6 +1,7 @@
 package edu.cmu.cs.lti.edvisees.eventcoref.algorithm;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import weka.classifiers.Classifier;
 import weka.core.Instance;
@@ -28,12 +29,22 @@ public class AdjacencyMatrixBuilder {
   }
 
 
-  public Matrix build(ArrayList<PredicateArgument> predicateArgumentSet, SqlHandle tsq1) throws Exception {
+  public Matrix build(ArrayList<PredicateArgument> predicateArgumentSet, SqlHandle tsq1, Boolean fast) throws Exception {
 	
     SymmetricMatrix adjacencyMatrix = new SymmetricMatrix(predicateArgumentSet.size(), predicateArgumentSet.size());
     SennaSimilarity s = new SennaSimilarity();
-    String modelLocation = "src/main/resources/bigModel.model";
-    String emptyArffLocation = "src/main/resources/header.arff";
+    
+    String modelLocation;
+    String emptyArffLocation;
+    //boolean test= true;
+    if(fast){
+    	modelLocation = "src/main/resources/smallModel.model";
+    	emptyArffLocation = "src/main/resources/smallHeader.arff";
+    }
+    else{
+    	modelLocation = "src/main/resources/bigModel.model";
+        emptyArffLocation = "src/main/resources/header.arff";
+    }
     
     DataSource source = new DataSource(emptyArffLocation);
 	Instances testInst = source.getDataSet();
@@ -43,19 +54,21 @@ public class AdjacencyMatrixBuilder {
     
     /*Loop over pairs of Justifications (event mentions)*/
     for (int i=0; i<predicateArgumentSet.size();i++){
-      for (int j=0; j<=i;j++){
-          System.out.println("Event pairs: i="+i+" j="+j);
+      for (int j=0; j<i;j++){
+          //System.out.println("Event pairs: i="+i+" j="+j);
     	  ArrayList<Double> featureVec = new ArrayList<Double>();
     	  
     	  PredicateArgument pa1 = predicateArgumentSet.get(i);
     	  PredicateArgument pa2 = predicateArgumentSet.get(j);
-          System.out.println("Created predicate arguments: Actions: "+pa1.getAction()+" "+pa2.getAction()+" Agents:" +pa1.getAgent()+pa2.getAgent()+"Patients:"+pa1.getPatient()+" "+pa2.getPatient());
+          //System.out.println("Created predicate arguments: Actions: "+pa1.getAction()+" "+pa2.getAction()+" Agents:" +pa1.getAgent()+pa2.getAgent()+"Patients:"+pa1.getPatient()+" "+pa2.getPatient());
           
-          System.out.println("Creating Senna feature..");
+          //System.out.println("Creating Senna feature..");
     	  featureVec.add(s.computeVal(pa1, pa2));
-    	  System.out.println("Creating DB features..");
+    	  if(!fast){
+    	  //System.out.println("Creating DB features..");
     	  featureVec.addAll(SDSMfeatures.genfeat(pa1, pa2,tsq1));
-    	  System.out.println("All features made.");
+    	  //System.out.println("All features made.");
+    	  }
     	  
     	//Compute Feature Vector Justification pair
         double[] featureVector = new double[featureVec.size()+1];
@@ -65,9 +78,18 @@ public class AdjacencyMatrixBuilder {
         featureVector[featureVec.size()] = 0;
         
         //Feed feature vector to a Classifier, and generate an adjacency matrix entry
-        System.out.println("Adding classification..");
-        adjacencyMatrix.set(i, j, classify(source,cls, testInst,featureVector,modelLocation,emptyArffLocation));
+        //System.out.println("Adding classification..");
+        double clss = classify(source,cls, testInst,featureVector,modelLocation,emptyArffLocation);
+        /*if(clss > 0.6){
+        	Scanner scan = new Scanner(System.in);   // Creates a new object of scanner class, this will take in Raw input from the user.
+
+
+            System.out.println("Classification 1.");
+            scan.nextLine(); 
+        }*/
+        adjacencyMatrix.set(i, j, clss);
       }
+      adjacencyMatrix.set(i, i, 1.0);
     }
     
     return adjacencyMatrix;
@@ -85,7 +107,7 @@ public class AdjacencyMatrixBuilder {
 		
 		inst.setDataset(testInst);
 		classification = 1-cls.classifyInstance(inst);
-		System.out.println("Classification is:"+classification);
+		//System.out.println("Classification is:"+classification);
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

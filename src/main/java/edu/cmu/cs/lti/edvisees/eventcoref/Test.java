@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.AdjacencyMatrixBuilder;
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustification;
+import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustificationKMeans;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.ConcreteReader;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.FanseParse;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
@@ -25,43 +26,35 @@ import edu.ucla.sspace.matrix.*;
 
 public class Test {
 
-  public static void main(String[] args) throws Exception {
+  public static void execute(String fileName,Boolean fast) throws Exception {
     
 	//System.out.println(Senna.getVector("cat"));
 	SqlHandle tsq1= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_lemma_sql0.db");
-    File f = new File(args[0]);
     System.out.println("Reading concrete object from file...");
     
-    ProtocolBufferReader<Communication> pbr = new ProtocolBufferReader<Communication>(args[0], Communication.class);
+    ProtocolBufferReader<Communication> pbr = new ProtocolBufferReader<Communication>(fileName, Communication.class);
     ArrayList<Communication> cList = new ArrayList<Communication>();
     while(pbr.hasNext()){
     	cList.add((Communication) pbr.next());
     }
     pbr.close();
-    System.out.println("Size of cList is "+cList.size());
+    //System.out.println("Size of cList is "+cList.size());
        
     int count=0;    
     for (Communication c : cList) {
       //Add fanseparse annotation layer
       c = FanseParse.addToCommunication(c);
       
-      System.out.println("Communication: " + count++);
+      System.out.print("Communication: " + count++);
       //System.out.println("c.getText() " + c.getText());
       
       ////System.out.println("Number of section segmentations: "+ c.getSectionSegmentationCount());
       ////System.out.println("Number of sections in segmentation0: "+ c.getSectionSegmentation(0).getSectionCount());
-      ////System.out.println("c.getSituationSetCount() " + c.getSituationSetCount());
-      ////System.out.println("c.getSituationMentionSetCount() " + c.getSituationMentionSetCount());
-      //System.out.println("c.getSituationSet(0).getSituationCount() " + c.getSituationSet(0).getSituationCount());
-      //System.out.println("c.getSituationMentionSet(0).getMentionCount() " + c.getSituationMentionSet(0).getMentionCount());   
-      //System.out.println("c.getEntitySetCount() " + c.getEntitySetCount());
-      //System.out.println("c.getEntityMentionSetCount() " + c.getEntityMentionSetCount());
-      //System.out.println("c.getEntitySet(0).getEntityCount() " + c.getEntitySet(0).getEntityCount());
-      //System.out.println("c.getEntityMentionSet(0).getMentionCount() " + c.getEntityMentionSet(0).getMentionCount());
-      ////System.out.println("c.getEntityMentionSetList() " + c.getEntityMentionSetList());
-      ////System.out.println("c.getEntityMentionSetList() " + c.getEntityMentionSet(0).getMentionList() );
- 
-      
+      //System.out.println("c.getSituationSetCount() " + c.getSituationSetCount());
+      //System.out.println("c.getSituationMentionSetCount() " + c.getSituationMentionSetCount());
+      System.out.print("\t"+c.getSituationMentionSet(0).getMentionCount());   
+      System.out.print("\t"+c.getSituationSet(0).getSituationCount());
+
       /*
       for(int i=0;i<c.getSituationMentionSet(0).getMentionCount();i++){
     	  System.out.println("Anchor token for situationMention "+ i + " is: " +  getEventText(c,c.getSituationMentionSet(0).getMention(i)));
@@ -92,17 +85,24 @@ public class Test {
       
       //Coref engine goes here
       //Produces an adjacency matrix (by pair-wise predictions over whole justification set)
-      System.out.println("Calling ambbuilder");
+      //System.out.println("Calling ambbuilder");
       AdjacencyMatrixBuilder amb = new AdjacencyMatrixBuilder();
-      System.out.println("Calling ambbuilder.build");
-      Matrix adjacencyMatrix = amb.build(predicateArgumentSet,tsq1);
+      //System.out.println("Calling ambbuilder.build");
+      Matrix adjacencyMatrix = amb.build(predicateArgumentSet,tsq1,fast);
       
-      /*
+      ///*
       //Chain builder goes here
       //Produces a list of list of justifications
-      ArrayList< ArrayList<Justification> > justificationClusterList = ClusterJustification.cluster(adjacencyMatrix, justificationSet, true);
+      //System.out.println("Clustering..");
+      //ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationSpectral.cluster(adjacencyMatrix, justificationSet, true);
+      ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationKMeans.cluster(adjacencyMatrix, justificationSet);
+      //ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationEM.cluster(adjacencyMatrix, justificationSet);
+
+      //ArrayList< ArrayList<Justification> > justificationClusterList = ClusterJustification.cluster(adjacencyMatrix, justificationSet, true);
+      //System.out.println("\"Clustered");
       
       //Loop through each justification cluster and create a situation out of it
+      //System.out.println("Wrappin.");
       ArrayList<Situation> situationSet = new ArrayList<Situation>();
       for (ArrayList<Justification> justificationCluster : justificationClusterList) {
         situationSet.add(WrapperUtils.situationWrapper(justificationCluster));
@@ -110,7 +110,7 @@ public class Test {
       
       //Finally wrap the newly created situation set into the communication
       c = WrapperUtils.situationSetWrapper(c, situationSet);
-      */
+      //*/
     }     
 
   }

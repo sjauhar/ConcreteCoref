@@ -81,8 +81,9 @@ public class FanseParse {
   
   public static Communication addToCommunication (Communication c) throws Exception {
     //create a fanseparser client object
-    FanseParse client = new FanseParse("128.2.209.222", 5776);
-    
+    //FanseParse client = new FanseParse("128.2.209.222", 5776);
+	 FanseParse client = new FanseParse("localhost", 5776);
+	  
     //int start = 0;
     //int end;
     //String cText = c.getText();

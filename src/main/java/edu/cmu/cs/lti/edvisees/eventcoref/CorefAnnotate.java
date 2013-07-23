@@ -30,8 +30,9 @@ public class CorefAnnotate {
   public static ArrayList<Communication> execute(ArrayList<Communication> cList,Boolean fast) throws Exception {
     
 	//System.out.println(Senna.getVector("cat"));
-	SqlHandle tsq1= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_lemma_sql0.db");
-    
+	SqlHandle tsq1 = null;
+	if (!fast) tsq1= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_lemma_sql0.db");
+   
 	ArrayList<Communication> annotatedCList = new ArrayList<Communication>();
 	
     int count=0;    

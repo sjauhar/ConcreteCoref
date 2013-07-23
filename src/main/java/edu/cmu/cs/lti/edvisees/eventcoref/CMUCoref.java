@@ -26,7 +26,7 @@ import edu.ucla.sspace.matrix.*;
 public class CMUCoref {
 
   public static void main(String[] args) throws Exception {
-    Boolean fast=true;
+    Boolean test=true;
     String inputFile = "src/main/resources/eecb-docs-annotations-concrete.pb";
     
     System.out.println("Reading concrete object from file...");
@@ -38,7 +38,7 @@ public class CMUCoref {
     pbr.close();
     
     //CorefAnnotate t = new CorefAnnotate();
-    ArrayList<Communication> cListFinal = CorefAnnotate.execute(cList,fast);
+    ArrayList<Communication> cListFinal = CorefAnnotate.execute(cList,test);
     
   }
   

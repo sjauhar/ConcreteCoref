@@ -116,7 +116,7 @@ public class ClusterJustificationBasic {
 				Assignments assignments = getBasicClusteringAssignments(adjacencyMatrix);
 				//Evaluate Quality				  
 				int bestK = assignments.numClusters();
-				System.out.println("\t"+bestK+"\n");
+				System.out.println("\tSituationClusters:  "+bestK+"\n");
 				//System.out.println("In best clustering, number of clusters: " + bestK + "\nBest Clustering");
 				Assignments bestCluster = assignments;
 

@@ -29,8 +29,16 @@ public class CMUCoref {
     Boolean fast=true;
     String inputFile = "src/main/resources/eecb-docs-annotations-concrete.pb";
     
-    Test t = new Test();
-    Test.execute(inputFile,fast);
+    System.out.println("Reading concrete object from file...");
+    ProtocolBufferReader<Communication> pbr = new ProtocolBufferReader<Communication>(inputFile, Communication.class);
+    ArrayList<Communication> cList = new ArrayList<Communication>();
+    while(pbr.hasNext()){
+    	cList.add((Communication) pbr.next());
+    }
+    pbr.close();
+    
+    //CorefAnnotate t = new CorefAnnotate();
+    ArrayList<Communication> cListFinal = CorefAnnotate.execute(cList,fast);
     
   }
   

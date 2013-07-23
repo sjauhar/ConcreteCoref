@@ -11,6 +11,6 @@ Requirements:
 (2) Java memory requirements: -Xms256M -Xmx6G -Xss32m
 
 
-Sample test file `CMUCoref.java` reads a file containing Communications from the EECB corpus (hardcoded for this test), and sequentially annotates event-coreferences for each communication.
+Sample test file `CMUCoref.java` reads a file containing Communications from the EECB corpus (hardcoded for this test), and calls CorefAnnotate, which annotates event-coreferences for each communication in the list and returns a  new communication list with annotated communication objects .
 
  

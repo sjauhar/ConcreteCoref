@@ -9,9 +9,10 @@ public class CMUCoref {
   public static void main(String[] args) throws Exception {
     Boolean fast=true;//The system runs in fast mode if set to true. To be used for testing!
     
-    String inputFile = "src/main/resources/eecb-docs-annotations-concrete.pb";//This is the location of the data pb file
+    String inputFile = args[0];//This is the location of the data pb file
+    //inputFile="src/main/resources/eecb-docs-annotations-concrete.pb";
     
-    String parseServerIP = "localhost";//This is the IP of the Fanseparser server
+    String parseServerIP = args[1];//This is the IP of the Fanseparser server
     
     System.out.println("Reading concrete object from file...");
     ProtocolBufferReader<Communication> pbr = new ProtocolBufferReader<Communication>(inputFile, Communication.class);

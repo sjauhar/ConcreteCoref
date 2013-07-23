@@ -27,7 +27,7 @@ import edu.ucla.sspace.matrix.*;
 
 public class CorefAnnotate {
 
-  public static ArrayList<Communication> execute(ArrayList<Communication> cList,Boolean fast) throws Exception {
+  public static ArrayList<Communication> execute(ArrayList<Communication> cList,Boolean fast,String IP) throws Exception {
     
 	//System.out.println(Senna.getVector("cat"));
 	SqlHandle tsq1 = null;
@@ -38,7 +38,7 @@ public class CorefAnnotate {
     int count=0;    
     for (Communication c : cList) {
       //Add fanseparse annotation layer
-      c = FanseParse.addToCommunication(c);
+      c = FanseParse.addToCommunication(c,IP);
       
       System.out.print("Communication: " + count++);
       //System.out.println("c.getText() " + c.getText());

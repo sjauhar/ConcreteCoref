@@ -79,9 +79,11 @@ public class FanseParse {
   }
 
   
-  public static Communication addToCommunication (Communication c) throws Exception {
+  public static Communication addToCommunication (Communication c, String IP) throws Exception {
     //create a fanseparser client object
-    FanseParse client = new FanseParse("128.2.209.222", 5776);
+	  int port = 5776;//This should be the same as that in the parse server
+	  FanseParse client = new FanseParse(IP, port);
+    //FanseParse client = new FanseParse("128.2.209.222", 5776);
 	 //FanseParse client = new FanseParse("localhost", 5776);
 	  
     //int start = 0;

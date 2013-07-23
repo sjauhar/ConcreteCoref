@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.AdjacencyMatrixBuilder;
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustification;
+import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustificationBasic;
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustificationKMeans;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.ConcreteReader;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.FanseParse;
@@ -95,7 +96,7 @@ public class Test {
       //Produces a list of list of justifications
       //System.out.println("Clustering..");
       //ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationSpectral.cluster(adjacencyMatrix, justificationSet, true);
-      ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationKMeans.cluster(adjacencyMatrix, justificationSet);
+      ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationBasic.cluster(adjacencyMatrix, justificationSet);
       //ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationEM.cluster(adjacencyMatrix, justificationSet);
 
       //ArrayList< ArrayList<Justification> > justificationClusterList = ClusterJustification.cluster(adjacencyMatrix, justificationSet, true);

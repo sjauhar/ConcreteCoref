@@ -3,6 +3,12 @@
   <groupId>edu.cmu.lti.edvisees.concretetest</groupId>
   <artifactId>sjauhar_concretetest</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <repositories>
+  <repository>
+  <id>project</id>
+  <url>file://${project.basedir}/repo</url>
+</repository>
+  </repositories>
   <dependencies>
   	<dependency>
   		<groupId>edu.jhu.hlt.concrete</groupId>
@@ -54,6 +60,51 @@
 		<groupId>edu.mit</groupId>
 		<artifactId>jwi</artifactId>
 		<version>2.2.3</version>
-	</dependency>       
+	</dependency>
+	<dependency>
+  <groupId>local</groupId>
+  <artifactId>core1.0</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>fanseparser</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>je-5.0.58</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>object-explorer</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>ObjectSizeFetcher</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>RiTaWN</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>sqlite-jdbc-3.7.2</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>supportWN</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>weka</artifactId>
+  <version>1.0</version>
+</dependency>     
   </dependencies>
 </project>

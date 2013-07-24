@@ -83,7 +83,7 @@ public class CompositionUtils {
 		
 		int count=0;
 		
-		ResultSet rs= tsq.sqlGet("select rel,w2,SentenceIDs,corpus from Triples where w1= \""+w1+"\"");
+		ResultSet rs= tsq.sqlGet("select rel,w2,SentenceIDs,corpus from Triples where w1= '"+w1+"'");
 		while(rs.next()){
 			count =count +1;
 			sent = rs.getString("SentenceIDs");
@@ -104,7 +104,7 @@ public class CompositionUtils {
 		}
 		
 		sent="";
-		rs= tsq.sqlGet("select rel,w1,SentenceIDs,corpus from Triples where w2= \""+w1+"\"");
+		rs= tsq.sqlGet("select rel,w1,SentenceIDs,corpus from Triples where w2= '"+w1+"'");
 		while(rs.next()){
 			
 			sent = rs.getString("SentenceIDs");
@@ -186,7 +186,7 @@ public class CompositionUtils {
 		else if(rel.equals("P")){
 			relt="'dobj','nsubj','ccomp','xcomp','partmod','pobj'";
 		}
-		ResultSet rs= tsq.sqlGet("select w1,count from Triples where w2= \""+event+"\" and rel IN ("+relt+") order by count DESC");
+		ResultSet rs= tsq.sqlGet("select w1,count from Triples where w2= '"+event+"' and rel IN ("+relt+") order by count DESC");
 		int count=0;
 		while(rs.next()&&count<1){
 			//System.out.println(rs.getString("count")+": "+rs.getString("w1"));
@@ -195,7 +195,7 @@ public class CompositionUtils {
 			count +=1;
 		}
 		
-		rs= tsq.sqlGet("select w2,count from Triples where w1= \""+event+"\" and rel IN ("+relt+") order by count DESC");
+		rs= tsq.sqlGet("select w2,count from Triples where w1= '"+event+"' and rel IN ("+relt+") order by count DESC");
 		count=0;
 		while(rs.next()&&count<1){
 			//System.out.println(rs.getString("count")+": "+rs.getString("w2"));

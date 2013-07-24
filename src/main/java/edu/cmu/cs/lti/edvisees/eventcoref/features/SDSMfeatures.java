@@ -11,6 +11,15 @@ import edu.cmu.cs.lti.edvisees.eventcoref.utils.*;
 
 
 public class SDSMfeatures {
+	public static String replacequotes(String s){
+		if(s.contains("'")){
+			return s.replace("'", "''");
+			//System.out.println(test);
+		}
+		else{
+			return s;
+		}
+	}
 	public static ArrayList<Double> genfeat(PredicateArgument set1, PredicateArgument set2,SqlHandle tsq1) throws Exception{
 		Boolean nofill=true;
 		ArrayList<Double> ret= new ArrayList<Double>();
@@ -18,14 +27,15 @@ public class SDSMfeatures {
 		//SqlHandle tsq2= new SqlHandle("src/main/resources/simplewikidata/repaired_bklsimplewiki_word_lemma_sst_sql0.db");
 		//SqlHandle tsq3= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_sst_sql0.db");
 		//lemma arguments
-		String event1= WnUtil.findlemma(set1.getAction(),set1.getActionPOS())+"_root";
-		String event2= WnUtil.findlemma(set2.getAction(),set2.getActionPOS())+"_root";
+		String event1= replacequotes(WnUtil.findlemma(set1.getAction(),set1.getActionPOS())+"_root");
+		String event2= replacequotes(WnUtil.findlemma(set2.getAction(),set2.getActionPOS())+"_root");
 		
-		String agent1= WnUtil.findlemma(set1.getAgent(),set1.getAgentPOS())+"_root";
-		String agent2= WnUtil.findlemma(set2.getAgent(),set2.getAgentPOS())+"_root";
+		String agent1= replacequotes(WnUtil.findlemma(set1.getAgent(),set1.getAgentPOS())+"_root");
+		String agent2= replacequotes(WnUtil.findlemma(set2.getAgent(),set2.getAgentPOS())+"_root");
 		
-		String patient1= WnUtil.findlemma(set1.getPatient(),set1.getPatientPOS())+"_root";
-		String patient2= WnUtil.findlemma(set2.getPatient(),set2.getPatientPOS())+"_root";
+		String patient1= replacequotes(WnUtil.findlemma(set1.getPatient(),set1.getPatientPOS())+"_root");
+		String patient2= replacequotes(WnUtil.findlemma(set2.getPatient(),set2.getPatientPOS())+"_root");
+		
 		
 		//sst arguments
 		
@@ -79,8 +89,8 @@ public class SDSMfeatures {
 			ArrayList<Double> ev_ag_lem_feats= Lists.newArrayList();
 			ArrayList<Double> Patientfeats= Lists.newArrayList();
 			ArrayList<Double> ev_pa_lem_feats= Lists.newArrayList();
-			ArrayList<Double> AgentPatientfeats= Lists.newArrayList();
-			ArrayList<Double> PatientAgentfeats= Lists.newArrayList();
+			//ArrayList<Double> AgentPatientfeats= Lists.newArrayList();
+			//ArrayList<Double> PatientAgentfeats= Lists.newArrayList();
 		if(!(agent1.equals("-_root"))&&!(agent2.equals("-_root"))){
 			Agentfeats= finddist(agent1,agent2,tsq1,"normal");
 			ev_ag_lem_feats= finddist(ev_ag_lem1,ev_ag_lem2,tsq1,"normal");
@@ -91,12 +101,12 @@ public class SDSMfeatures {
 			ev_pa_lem_feats= finddist(ev_pa_lem1,ev_pa_lem2,tsq1,"normal");
 		}
 		if(!(agent1.equals("-_root"))&&!(patient2.equals("-_root"))){
-			AgentPatientfeats= finddist(agent1,patient2,tsq1,"normal");
+			//AgentPatientfeats= finddist(agent1,patient2,tsq1,"normal");
 			//ev_ag_lem_feats= finddist(ev_ag_lem1,ev_ag_lem2,tsq1,"normal");
 		}
 		
 		if(!(patient1.equals("-_root"))&&!(agent2.equals("-_root"))){
-			PatientAgentfeats= finddist(patient1,agent2,tsq1,"normal");
+			//PatientAgentfeats= finddist(patient1,agent2,tsq1,"normal");
 			//ev_ag_lem_feats= finddist(ev_ag_lem1,ev_ag_lem2,tsq1,"normal");
 		}
 			//pure sst
@@ -122,8 +132,8 @@ public class SDSMfeatures {
 			//SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
 			Agentfeats= Lists.newArrayList(0.23122829779151968, 1.2512233042402923, 0.5353173744699655);//calcdist(m1,m2,"default");
 			ev_ag_lem_feats= Lists.newArrayList(0.9389374553003531, 0.9765789241166078, 0.9036256846289756);//calcdist(m1,m2,"default");
-			AgentPatientfeats=Lists.newArrayList(1.0,1.0,1.0);
-			PatientAgentfeats=Lists.newArrayList(1.0,1.0,1.0);
+			//AgentPatientfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
+			//PatientAgentfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
 		}
 		
 		if (patient1.equals("-_root")||patient2.equals("-_root")){
@@ -251,8 +261,8 @@ public class SDSMfeatures {
 		ret.addAll(Patientfeats);
 		ret.addAll(ev_ag_lem_feats);
 		ret.addAll(ev_pa_lem_feats);
-		ret.addAll(AgentPatientfeats);
-		ret.addAll(PatientAgentfeats);
+		//ret.addAll(AgentPatientfeats);
+		//ret.addAll(PatientAgentfeats);
 		/*ret.addAll(Eventsstfeats);
 		ret.addAll(Agentsstfeats);
 		ret.addAll(Patientsstfeats);

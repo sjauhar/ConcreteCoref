@@ -119,8 +119,13 @@ public class WnUtil {
 		
 		//System.out.println("Id = "+ wordID ) ;
 		//System.out.println("Lemma = "+ wordnet.getStems("cities","n")[0]);
-		System.out.println("Lemma = "+ findlemma("-","n"));
-		System.out.println("sst = "+ findsst("-","n"));
+		//System.out.println("Lemma = "+ findlemma("-","n"));
+		//System.out.println("sst = "+ findsst("-","n"));
+		String test="'s";
+		if(test.contains("'")){
+			test=test.replace("'", "''");
+			System.out.println(test);
+		}
 
 
 	}

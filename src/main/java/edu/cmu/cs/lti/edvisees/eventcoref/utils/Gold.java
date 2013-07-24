@@ -44,7 +44,7 @@ public class Gold {
 			relt="'dobj','nsubj','ccomp','xcomp','partmod','pobj'";
 		}
 		String sent="";
-		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w1= \""+w1+"\" and w2 = \""+w2+"\" and rel IN ("+relt+")");
+		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w1= '"+w1+"' and w2 = '"+w2+"' and rel IN ("+relt+")");
 		while(rs.next()){
 			sent+= rs.getString("SentenceIDs");
 			//System.out.println(sent);
@@ -84,7 +84,7 @@ public class Gold {
 		}
 		String sent="";
 		String w1str= "B-"+w1+"','I-"+w1+"','O-"+w1;
-		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w1 IN (\""+w1str+"\") and w2 = \""+w2+"\" and rel IN ("+relt+")");
+		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w1 IN ('"+w1str+"') and w2 = '"+w2+"' and rel IN ("+relt+")");
 		while(rs.next()){
 			sent+= rs.getString("SentenceIDs");
 			//System.out.println(sent);
@@ -124,7 +124,7 @@ public class Gold {
 		}
 		String sent="";
 		String w2str= "B-"+w2+"','I-"+w2+"','O-"+w2;
-		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w2 IN (\""+w2str+"\") and w1 = \""+w1+"\" and rel IN ("+relt+")");
+		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w2 IN ('"+w2str+"') and w1 = '"+w1+"' and rel IN ("+relt+")");
 		while(rs.next()){
 			sent+= rs.getString("SentenceIDs");
 			//System.out.println(sent);
@@ -165,7 +165,7 @@ public class Gold {
 		String sent="";
 		String w1str= "B-"+w1+"','I-"+w1+"','O-"+w1;
 		String w2str= "B-"+w2+"','I-"+w2+"','O-"+w2;
-		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w2 IN (\""+w2str+"\") and w1 IN (\""+w1str+"\") and rel IN ("+relt+")");
+		ResultSet rs= tsq.sqlGet("select SentenceIDs,corpus from Triples where w2 IN ('"+w2str+"') and w1 IN ('"+w1str+"') and rel IN ("+relt+")");
 		while(rs.next()){
 			sent+= rs.getString("SentenceIDs");
 			//System.out.println(sent);

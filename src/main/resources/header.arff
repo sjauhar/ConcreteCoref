@@ -1,6 +1,9 @@
-@relation Dataset
+@relation Data_allfeatures
 
-@attribute F0 numeric
+@attribute SennaEvent numeric
+@attribute EigenEvent numeric
+@attribute LevEvent numeric
+@attribute JWEvent numeric
 @attribute F1 numeric
 @attribute F2 numeric
 @attribute F3 numeric
@@ -16,6 +19,12 @@
 @attribute F13 numeric
 @attribute F14 numeric
 @attribute F15 numeric
+@attribute F16 numeric
+@attribute F17 numeric
+@attribute F18 numeric
+@attribute F19 numeric
+@attribute F20 numeric
+@attribute F21 numeric
 @attribute Label {POS,NEG}
 
 @data

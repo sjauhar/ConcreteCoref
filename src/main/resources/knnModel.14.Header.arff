@@ -1,0 +1,19 @@
+@relation Dataset
+
+@attribute SennaEvent numeric
+@attribute SennaAg numeric
+@attribute SennaPat numeric
+@attribute SennaNo numeric
+@attribute EigenEvent numeric
+@attribute EigenAg numeric
+@attribute EigenPat numeric
+@attribute EigenNone numeric
+@attribute LevAgent numeric
+@attribute LevEvent numeric
+@attribute LevPatient numeric
+@attribute JWAgent numeric
+@attribute JWEvent numeric
+@attribute JWPatient numeric
+@attribute Label {POS,NEG}
+
+@data

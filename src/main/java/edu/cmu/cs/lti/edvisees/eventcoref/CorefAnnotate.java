@@ -1,6 +1,7 @@
 package edu.cmu.cs.lti.edvisees.eventcoref;
 
 import java.io.File;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.AdjacencyMatrixBuilder;
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustification;
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustificationBasic;
 import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustificationKMeans;
+import edu.cmu.cs.lti.edvisees.eventcoref.algorithm.ClusterJustificationSpectral;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.ConcreteReader;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.FanseParse;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
@@ -32,12 +34,17 @@ public class CorefAnnotate {
 	//System.out.println(Senna.getVector("cat"));
 	SqlHandle tsq1 = null;
 	if (!fast) tsq1= new SqlHandle("src/main/resources/simplewikidata/bklsimplewiki_lemma_sql0.db");
-   
+	//ResultSet rs= tsq1.sqlGet("select rel,w2,SentenceIDs,corpus from Triples where w1= '\"'");
+	//System.out.println(rs);
 	ArrayList<Communication> annotatedCList = new ArrayList<Communication>();
 	
     int count=0;    
     for (Communication c : cList) {
       //Add fanseparse annotation layer
+      /*if(count<53){
+    	  count++;
+    	  continue;
+      }*/
       c = FanseParse.addToCommunication(c,IP);
       
       System.out.print("Communication: " + count++);
@@ -87,7 +94,7 @@ public class CorefAnnotate {
       //Chain builder goes here
       //Produces a list of list of justifications
       //ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationSpectral.cluster(adjacencyMatrix, justificationSet, true);
-      ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationBasic.cluster(adjacencyMatrix, justificationSet);
+      ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationBasic.cluster(predicateArgumentSet, adjacencyMatrix, justificationSet);
       //ArrayList< ArrayList<Justification>> justificationClusterList = ClusterJustificationEM.cluster(adjacencyMatrix, justificationSet);
       //ArrayList< ArrayList<Justification> > justificationClusterList = ClusterJustification.cluster(adjacencyMatrix, justificationSet, true);
 

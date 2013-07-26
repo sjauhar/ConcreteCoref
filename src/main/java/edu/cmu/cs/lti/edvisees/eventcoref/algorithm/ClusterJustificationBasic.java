@@ -1,21 +1,16 @@
 package edu.cmu.cs.lti.edvisees.eventcoref.algorithm;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import weka.clusterers.ClusterEvaluation;
-import weka.clusterers.EM;
-import weka.clusterers.SimpleKMeans;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
-
+import edu.cmu.cs.lti.edvisees.eventcoref.utils.PredicateArgument;
 import edu.jhu.hlt.concrete.Concrete.Situation.Justification;
-
 import edu.ucla.sspace.clustering.Assignment;
 import edu.ucla.sspace.clustering.Assignments;
 import edu.ucla.sspace.clustering.HardAssignment;
@@ -77,24 +72,57 @@ public class ClusterJustificationBasic {
 					//Coreferent, do something
 					int asst_i = asst[i];
 					int asst_j = asst[j];
+					//System.out.println("i="+i+" j="+j+" Asst i="+asst_i+" Asst_j="+asst_j);
 					if(asst_i!=asst_j){
+						int max=Math.max(asst_i, asst_j);
 						Set<Integer> c_i = clusters.get(asst_i);
 						Set<Integer> c_j = clusters.get(asst_j);
-						c_j.addAll(c_i);
-						
-						//Update assts for all elements in cluster i to j
-						for(Integer in:c_i) asst[in] = asst_j;
-
-						clusters.remove(asst_i);
-						clusters.remove(asst_j);
-						clusters.add(asst_j, c_j);
-
-						//Update assts for all elements in all clusters after asst_i
-						for(int in = asst_i;in<clusters.size();in++){
-							Set<Integer> cluster_to_change = clusters.get(in);
-							for(Integer in1:cluster_to_change) asst[in1]--;
+						if(asst_i>asst_j){
+							c_j.addAll(c_i);
+							for(Integer in:c_i) asst[in] = asst_j;
+							clusters.remove(asst_i);
+							clusters.remove(asst_j);
+							clusters.add(asst_j, c_j);
 						}
+						else{
+							c_i.addAll(c_j);
+							for(Integer in:c_j) asst[in] = asst_i;
+							clusters.remove(asst_j);
+							clusters.remove(asst_i);
+							clusters.add(asst_i,c_i);
+						}
+						//System.out.println("cluster size"+clusters.size());
+
+						//Update assts for all elements in all clusters after max
+
+						for(int in = max;in<clusters.size();in++){
+							Set<Integer> cluster_to_change = clusters.get(in);
+							for(Integer in1:cluster_to_change){
+								//System.out.println("cluster no="+in+" point="+in1);
+								asst[in1]--;
+							}
+						}
+						//System.out.println("Merged "+i+" "+j);
 					}
+
+					/*
+					System.out.println("Printing clusters:");
+					for(Set<Integer> cl:clusters){
+						System.out.print("[");
+						for(Integer inte:cl){
+							System.out.print(inte+",");
+						}
+						System.out.println("]");
+					}
+
+					System.out.println("Printing assignments:");
+					System.out.print("[");
+
+					for(int id=0;id<asst.length;id++){
+						System.out.print(asst[id]+",");
+					}
+					System.out.println("]");
+					*/
 				}
 			}
 		}
@@ -106,7 +134,7 @@ public class ClusterJustificationBasic {
 		return assignments;
 	}
 
-	public static ArrayList< ArrayList<Justification>> cluster(Matrix adjacencyMatrix, ArrayList<Justification> justificationSet) {
+	public static ArrayList< ArrayList<Justification>> cluster(ArrayList<PredicateArgument> predicateArgumentSet, Matrix adjacencyMatrix, ArrayList<Justification> justificationSet){
 		ArrayList< ArrayList<Justification> > bestJustificationClustering = new ArrayList< ArrayList<Justification> >();
 		//System.out.println("Justification size is:"+justificationSet.size());
 		if(justificationSet.size()>0){
@@ -135,6 +163,16 @@ public class ClusterJustificationBasic {
 					}
 					bestJustificationClustering.add(currentJustificationCluster);
 				}
+				
+				/*System.out.println("Printing clusters:");
+				for(Set<Integer> cl:bestCluster.clusters()){
+					System.out.print("[");
+					for(Integer inte:cl){
+						System.out.print("("+predicateArgumentSet.get(inte).getAgent()+","+predicateArgumentSet.get(inte).getAction()+","+predicateArgumentSet.get(inte).getPatient()+"),");
+					}
+					System.out.println("]");
+				}*/
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -142,7 +180,10 @@ public class ClusterJustificationBasic {
 			return bestJustificationClustering;
 
 		}
-		else return new ArrayList<ArrayList<Justification>>();
+		else{
+			System.out.println("\tSituationClusters:  0\n");
+			return new ArrayList<ArrayList<Justification>>();
+		}
 	}
 
 
@@ -238,7 +279,6 @@ public class ClusterJustificationBasic {
 			return clusterScore;
 		}
 	}
-
 }
 
 

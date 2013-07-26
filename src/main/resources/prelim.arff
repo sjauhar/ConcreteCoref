@@ -1,0 +1,9 @@
+@relation LexFeaturesOnlyNumbersByTopic_Others.only4
+
+@attribute SennaEvent numeric
+@attribute EigenEvent numeric
+@attribute LevEvent numeric
+@attribute JWEvent numeric
+@attribute Label {POS,NEG}
+
+@data

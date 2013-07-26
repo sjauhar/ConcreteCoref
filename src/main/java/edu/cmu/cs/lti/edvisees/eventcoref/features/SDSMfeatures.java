@@ -89,8 +89,8 @@ public class SDSMfeatures {
 			ArrayList<Double> ev_ag_lem_feats= Lists.newArrayList();
 			ArrayList<Double> Patientfeats= Lists.newArrayList();
 			ArrayList<Double> ev_pa_lem_feats= Lists.newArrayList();
-			//ArrayList<Double> AgentPatientfeats= Lists.newArrayList();
-			//ArrayList<Double> PatientAgentfeats= Lists.newArrayList();
+			ArrayList<Double> AgentPatientfeats= Lists.newArrayList();
+			ArrayList<Double> PatientAgentfeats= Lists.newArrayList();
 		if(!(agent1.equals("-_root"))&&!(agent2.equals("-_root"))){
 			Agentfeats= finddist(agent1,agent2,tsq1,"normal");
 			ev_ag_lem_feats= finddist(ev_ag_lem1,ev_ag_lem2,tsq1,"normal");
@@ -101,12 +101,12 @@ public class SDSMfeatures {
 			ev_pa_lem_feats= finddist(ev_pa_lem1,ev_pa_lem2,tsq1,"normal");
 		}
 		if(!(agent1.equals("-_root"))&&!(patient2.equals("-_root"))){
-			//AgentPatientfeats= finddist(agent1,patient2,tsq1,"normal");
+			AgentPatientfeats= finddist(agent1,patient2,tsq1,"normal");
 			//ev_ag_lem_feats= finddist(ev_ag_lem1,ev_ag_lem2,tsq1,"normal");
 		}
 		
 		if(!(patient1.equals("-_root"))&&!(agent2.equals("-_root"))){
-			//PatientAgentfeats= finddist(patient1,agent2,tsq1,"normal");
+			PatientAgentfeats= finddist(patient1,agent2,tsq1,"normal");
 			//ev_ag_lem_feats= finddist(ev_ag_lem1,ev_ag_lem2,tsq1,"normal");
 		}
 			//pure sst
@@ -132,8 +132,8 @@ public class SDSMfeatures {
 			//SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
 			Agentfeats= Lists.newArrayList(0.23122829779151968, 1.2512233042402923, 0.5353173744699655);//calcdist(m1,m2,"default");
 			ev_ag_lem_feats= Lists.newArrayList(0.9389374553003531, 0.9765789241166078, 0.9036256846289756);//calcdist(m1,m2,"default");
-			//AgentPatientfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
-			//PatientAgentfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
+			AgentPatientfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
+			PatientAgentfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
 		}
 		
 		if (patient1.equals("-_root")||patient2.equals("-_root")){
@@ -141,6 +141,8 @@ public class SDSMfeatures {
 			//SparseDoubleMatrix2D m2= new SparseDoubleMatrix2D(1,1);
 			Patientfeats=Lists.newArrayList(0.21432281972552883, 1.33989803033053, 0.5507771073850622);//calcdist(m1,m2,"default");
 			ev_pa_lem_feats= Lists.newArrayList(0.74923933945639, 0.9389621960271494, 0.7649554668126036); //calcdist(m1,m2,"default");
+			AgentPatientfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
+			PatientAgentfeats=Lists.newArrayList(-1.0,-1.0,-1.0);
 		}
 		}
 	//@@@@@TILL HERE FOR DEFAULT -1.0
@@ -261,8 +263,8 @@ public class SDSMfeatures {
 		ret.addAll(Patientfeats);
 		ret.addAll(ev_ag_lem_feats);
 		ret.addAll(ev_pa_lem_feats);
-		//ret.addAll(AgentPatientfeats);
-		//ret.addAll(PatientAgentfeats);
+		ret.addAll(AgentPatientfeats);
+		ret.addAll(PatientAgentfeats);
 		/*ret.addAll(Eventsstfeats);
 		ret.addAll(Agentsstfeats);
 		ret.addAll(Patientsstfeats);

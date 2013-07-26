@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.cmu.lti.edvisees.concretetest</groupId>
+  <artifactId>sjauhar_concretetest</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <repositories>
+  <repository>
+  <id>project</id>
+  <url>file://${project.basedir}/repo</url>
+</repository>
+  </repositories>
+    <build>
+      <plugins>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <archive>
+            </archive>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>edu.jhu.hlt.concrete</groupId>
+  		<artifactId>concrete-protobufs</artifactId>
+  		<version>1.1.7</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>edu.jhu.hlt.concrete</groupId>
+  		<artifactId>concrete-java</artifactId>
+  		<version>1.1.7</version>
+  	</dependency>
+  	<dependency>
+        <groupId>edu.ucla.sspace</groupId>
+        <artifactId>sspace</artifactId>
+        <version>2.0</version>
+	</dependency>
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>14.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>colt</groupId>
+		<artifactId>colt</artifactId>
+		<version>1.2.0</version>
+	</dependency>
+	<dependency>
+		<groupId>net.sourceforge.parallelcolt</groupId>
+		<artifactId>parallelcolt</artifactId>
+		<version>0.10.0</version>
+	</dependency>
+	<dependency>
+            <groupId>net.sf.extjwnl</groupId>
+            <artifactId>extjwnl</artifactId>
+            <version>1.6.10</version>
+    </dependency>
+    <dependency>
+            <scope>runtime</scope>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.22</version>
+    </dependency>
+    <dependency>
+		<groupId>edu.stanford.nlp</groupId>
+		<artifactId>stanford-corenlp</artifactId>
+		<version>3.2.0</version>
+	</dependency>
+    <dependency>
+		<groupId>edu.mit</groupId>
+		<artifactId>jwi</artifactId>
+		<version>2.2.3</version>
+	</dependency>
+	<dependency>
+  <groupId>local</groupId>
+  <artifactId>core1.0</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>fanseparser</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>je-5.0.58</artifactId>
+  <version>1.0</version>
+</dependency>
+
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>RiTaWN</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>sqlite-jdbc-3.7.2</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>supportWN</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>weka</artifactId>
+  <version>1.0</version>
+</dependency>     
+  </dependencies>
+</project>

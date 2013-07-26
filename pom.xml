@@ -90,16 +90,7 @@
   <artifactId>je-5.0.58</artifactId>
   <version>1.0</version>
 </dependency>
-<dependency>
-  <groupId>local</groupId>
-  <artifactId>object-explorer</artifactId>
-  <version>1.0</version>
-</dependency>
-<dependency>
-  <groupId>local</groupId>
-  <artifactId>ObjectSizeFetcher</artifactId>
-  <version>1.0</version>
-</dependency>
+
 <dependency>
   <groupId>local</groupId>
   <artifactId>RiTaWN</artifactId>
@@ -118,6 +109,11 @@
 <dependency>
   <groupId>local</groupId>
   <artifactId>weka</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>simmetrics_jar_v1_6_2_d07_02_07</artifactId>
   <version>1.0</version>
 </dependency>     
   </dependencies>

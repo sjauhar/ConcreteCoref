@@ -55,6 +55,7 @@ public class WrapperUtils {
   public static ArrayList<PredicateArgument> predicateArgumentWrapper(SituationMentionSet sms, Communication c) {
     ArrayList<PredicateArgument> predicateArgumentSet = new ArrayList<PredicateArgument>();
     for (SituationMention sm : sms.getMentionList()) {
+      //System.out.println("Here 0");
       predicateArgumentSet.add(getPredicateArgumentFromSituationMention(c,sm));
     }
     return predicateArgumentSet;
@@ -66,16 +67,22 @@ public class WrapperUtils {
     List<String> agentRelations = Arrays.asList("nsubj", "dobj", "pobj", "amod", "prep", "partmod");
     List<String> patientRelations = Arrays.asList("dobj", "nsubj", "ccomp", "prep", "xcomp", "partmod", "pobj");
     
+    //System.out.println("Here 0.0.1");
     for (Sentence sentence : c.getSectionSegmentation(0).getSection(0).getSentenceSegmentation(0).getSentenceList() ){
       Tokenization tokenizn = sentence.getTokenization(0);
       if (tokenizn.getUuid().equals(sm.getTokens().getTokenizationId() )){
         int actionIndex = sm.getTokens().getAnchorTokenIndex();
         
+        //System.out.println("Here 0.0.2");
         String action = tokenizn.getToken(actionIndex).getText();
-        String actionPOS = tokenizn.getPosTags(0).getTaggedToken(actionIndex).getTag();
+        //System.out.println("Here 0.0.2.1");
+        String actionPOS = ""; //tokenizn.getPosTags(0).getTaggedToken(actionIndex).getTag();
+        //System.out.println("Here 0.0.2.2");
         String context = c.getText().substring(sentence.getTextSpan().getStart(), sentence.getTextSpan().getEnd());
         
-        DependencyParse fanseparse = tokenizn.getDependencyParse(3);
+        //System.out.println("Here 0.0.3");
+        DependencyParse fanseparse = tokenizn.getDependencyParse(0);
+        //System.out.println("Here 0.0.35");
         HashMap<String, ArrayList<Integer> > candidateRoles = new HashMap<String, ArrayList<Integer> >();
         for (Dependency d : fanseparse.getDependencyList()) {
           if (d.getGov() == actionIndex && patientRelations.contains(d.getEdgeType())) {
@@ -88,6 +95,7 @@ public class WrapperUtils {
           }
         }
         
+        //System.out.println("Here 0.0.4");
         String agent = "";
         String agentPOS = "";
         String agentRelation = "";
@@ -95,7 +103,7 @@ public class WrapperUtils {
           if (candidateRoles.containsKey(relation)) {
             ArrayList<Integer> clone = candidateRoles.get(relation);
             agent = tokenizn.getToken(clone.get(0)).getText();
-            agentPOS = tokenizn.getPosTags(0).getTaggedToken(clone.get(0)).getTag();
+            //agentPOS = tokenizn.getPosTags(0).getTaggedToken(clone.get(0)).getTag();
             agentRelation = relation;
             clone.remove(0);
             if (clone.isEmpty()) {
@@ -114,7 +122,7 @@ public class WrapperUtils {
           if (candidateRoles.containsKey(relation)) {
             ArrayList<Integer> clone = candidateRoles.get(relation);
             patient = tokenizn.getToken(clone.get(0)).getText();
-            patientPOS = tokenizn.getPosTags(0).getTaggedToken(clone.get(0)).getTag();
+            //patientPOS = tokenizn.getPosTags(0).getTaggedToken(clone.get(0)).getTag();
             patientRelation = relation;
             clone.remove(0);
             candidateRoles.put(relation, clone);

@@ -8,7 +8,7 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.Soundex;
 import edu.cmu.cs.lti.edvisees.eventcoref.utils.*;
 
 
-public class Lexicographicfeatures {
+public class LexicographicfeaturesNew {
 	public enum Similarities {
 		levenshtein,
 		jaro,
@@ -25,7 +25,7 @@ public class Lexicographicfeatures {
 		String patient2 = pa2.getPatient();
 
 		ret.addAll(stringSimFeatures(action1,action2,agent1,agent2,patient1,patient2,"levenshtein"));
-		//ret.addAll(stringSimFeatures(action1,action2,agent1,agent2,patient1,patient2,"jaro"));
+		ret.addAll(stringSimFeatures(action1,action2,agent1,agent2,patient1,patient2,"jaro"));
 		//ret.addAll(stringSimFeatures(action1,action2,agent1,agent2,patient1,patient2,"soundex"));
 		//ret.addAll(stringSimFeatures(action1,action2,agent1,agent2,patient1,patient2,"qgrams"));
 		
@@ -45,42 +45,50 @@ public class Lexicographicfeatures {
 		case levenshtein:
 		{
 			Levenshtein simClass = new Levenshtein();
+			if (action1.equals("-")||action2.equals("-"))ret.add(-1.0);
+			else ret.add((double)simClass.getSimilarity(action1, action2));
+			
 			if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
 			else ret.add((double)simClass.getSimilarity(agent1, agent2));
-			//if (action1.equals("-")||action2.equals("-"))ret.add(-1.0);
-			//else ret.add((double)simClass.getSimilarity(action1, action2));
+
 			if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
 			else ret.add((double)simClass.getSimilarity(patient1, patient2));
 			break;
 		}	
 		case jaro:
 		{	Jaro simClass = new Jaro();
-			//if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
-			//else ret.add((double)simClass.getSimilarity(agent1, agent2));
-			if (action1.equals("-")||action2.equals("-"))ret.add(-1.0);
-			else ret.add((double)simClass.getSimilarity(action1, action2));
-			//if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
-			//else ret.add((double)simClass.getSimilarity(patient1, patient2));
+		    if (action1.equals("-")||action2.equals("-"))ret.add(-1.0);
+		    else ret.add((double)simClass.getSimilarity(action1, action2));
+		
+			if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
+			else ret.add((double)simClass.getSimilarity(agent1, agent2));
+
+			if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
+			else ret.add((double)simClass.getSimilarity(patient1, patient2));
 		break;
 		}
 		case soundex:
 		{	Soundex simClass = new Soundex();
-		//if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
-		//else ret.add((double)simClass.getSimilarity(agent1, agent2));
 		if (action1.equals("-")||action2.equals("-"))ret.add(-1.0);
 		else ret.add((double)simClass.getSimilarity(action1, action2));
-		//if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
-		//else ret.add((double)simClass.getSimilarity(patient1, patient2));
+		
+		if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
+		else ret.add((double)simClass.getSimilarity(agent1, agent2));
+
+		if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
+		else ret.add((double)simClass.getSimilarity(patient1, patient2));
 		break;
 		}
 		case qgrams:
 		{	QGramsDistance simClass = new QGramsDistance();
-		//if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
-		//else ret.add((double)simClass.getSimilarity(agent1, agent2));
 		if (action1.equals("-")||action2.equals("-"))ret.add(-1.0);
 		else ret.add((double)simClass.getSimilarity(action1, action2));
-		//if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
-		//else ret.add((double)simClass.getSimilarity(patient1, patient2));
+		
+		if (agent1.equals("-")||agent2.equals("-"))ret.add(-1.0);
+		else ret.add((double)simClass.getSimilarity(agent1, agent2));
+
+		if (patient1.equals("-")||patient2.equals("-"))ret.add(-1.0);
+		else ret.add((double)simClass.getSimilarity(patient1, patient2));
 		break;
 		}
 		}

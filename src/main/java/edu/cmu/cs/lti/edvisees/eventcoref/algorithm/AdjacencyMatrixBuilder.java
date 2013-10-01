@@ -42,11 +42,14 @@ public class AdjacencyMatrixBuilder {
 		String fullArffLocation,filterArffLocation;
 		//boolean test= true;
 
+		
 		fullLocation = "src/main/resources/bigModel.model";
 		fullArffLocation = "src/main/resources/header.arff";
-		filterLocation = "src/main/resources/prelim.model";
-		filterArffLocation = "src/main/resources/prelim.arff";
-
+		//filterLocation = "src/main/resources/prelim.model";
+		//filterArffLocation = "src/main/resources/prelim.arff";
+		filterLocation = "src/main/resources/firestone.model";
+		filterArffLocation = "src/main/resources/firestoneheader.arff";
+		
 		DataSource filtersource = new DataSource(filterArffLocation);
 		DataSource fullsource = new DataSource(fullArffLocation);
 
@@ -71,8 +74,8 @@ public class AdjacencyMatrixBuilder {
 
 				//System.out.println("Creating Filter features..");
 				featureVec.add(s.computeVal(pa1, pa2));
-				//featureVec.addAll(s.getfeats(pa1, pa2));
-				featureVec.add(e.computeVal(pa1, pa2));
+				featureVec.addAll(s.getfeats(pa1, pa2));
+				//featureVec.add(e.computeVal(pa1, pa2));
 				//featureVec.addAll(e.getfeats(pa1, pa2));				
 				featureVec.addAll(l.genfeat(pa1, pa2));
 
@@ -109,10 +112,15 @@ public class AdjacencyMatrixBuilder {
 			//System.out.println("c2 "+testInst.numAttributes());
 			if(inst.numAttributes()!=testInst.numAttributes()) System.err.println("Model Arff and feature size should match.");
 			inst.setDataset(testInst);
-			double classification = 1-cls.classifyInstance(inst);
+
+			//double classification = 1-cls.classifyInstance(inst);
 			confid = cls.distributionForInstance(inst);
+			double classification=0;
+			if(confid[0]>0.80)
+				classification=1;
+			
 			//System.out.println("Classification is:"+classification);
-			retArray[0] = classification;
+			retArray[0] = confid[0]; //classification;
 			retArray[1] = Math.max(confid[0], confid[1]);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

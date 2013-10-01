@@ -18,6 +18,8 @@ import edu.ucla.sspace.matrix.Matrix;
 
 
 public class ClusterJustificationBasic {
+	
+	static boolean verbose = false;
 	public static Instances createInstances(Matrix adjacencyMatrix){
 		FastVector fvWekaAttributes = new FastVector(adjacencyMatrix.columns());
 		for(int i =0;i<adjacencyMatrix.columns();i++){
@@ -68,7 +70,7 @@ public class ClusterJustificationBasic {
 		}
 		for(int i = 0;i<adjacencyMatrix.columns();i++){
 			for(int j=0;j<i;j++){
-				if(adjacencyMatrix.get(i, j) == 1){
+				if(adjacencyMatrix.get(i, j) >= 0.8){
 					//Coreferent, do something
 					int asst_i = asst[i];
 					int asst_j = asst[j];
@@ -148,7 +150,7 @@ public class ClusterJustificationBasic {
 				//System.out.println("In best clustering, number of clusters: " + bestK + "\nBest Clustering");
 				Assignments bestCluster = assignments;
 
-				//System.out.println("In best clustering, number of clusters: " +bestCluster.numClusters());
+				System.out.println("In best clustering, number of clusters: " +bestCluster.numClusters());
 				int pos=0;
 				/*
 				for (Set<Integer> s : bestCluster.clusters()) {
@@ -164,14 +166,16 @@ public class ClusterJustificationBasic {
 					bestJustificationClustering.add(currentJustificationCluster);
 				}
 				
-				/*System.out.println("Printing clusters:");
-				for(Set<Integer> cl:bestCluster.clusters()){
-					System.out.print("[");
-					for(Integer inte:cl){
-						System.out.print("("+predicateArgumentSet.get(inte).getAgent()+","+predicateArgumentSet.get(inte).getAction()+","+predicateArgumentSet.get(inte).getPatient()+"),");
+				if(verbose){
+					System.out.println("Printing clusters:");
+					for(Set<Integer> cl:bestCluster.clusters()){
+						System.out.print("[");
+						for(Integer inte:cl){
+							System.out.print("("+predicateArgumentSet.get(inte).getAgent()+","+predicateArgumentSet.get(inte).getAction()+","+predicateArgumentSet.get(inte).getPatient()+"),");
+						}
+						System.out.println("]");
 					}
-					System.out.println("]");
-				}*/
+				}
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

@@ -23,10 +23,10 @@ public class SennaSimilarity implements Feature{
 			senna_feats.add(-1.0);
 		else
 			senna_feats.add(Senna.cosineSim(i.getAgent(),j.getAgent()));
-		if (i.getPatient().equals("-")||j.getPatient().equals("-"))
-			senna_feats.add(-1.0);
-		else
-			senna_feats.add(Senna.cosineSim(i.getPatient(),j.getPatient()));
+		//if (i.getPatient().equals("-")||j.getPatient().equals("-"))
+		//	senna_feats.add(-1.0);
+		//else
+		//	senna_feats.add(Senna.cosineSim(i.getPatient(),j.getPatient()));
 		if (i.getAgent().equals("-")||j.getPatient().equals("-"))
 			senna_feats.add(-1.0);
 		else

@@ -1,0 +1,10 @@
+@relation Data_firestonefeatures
+
+@attribute SennaEv numeric
+@attribute SennaAg numeric
+@attribute SennaAgPa numeric
+@attribute LevAg numeric
+@attribute LevPa numeric
+@attribute Label {POS,NEG}
+
+@data
